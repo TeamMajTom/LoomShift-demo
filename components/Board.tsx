@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { AddTaskForm } from "@/components/AddTaskForm";
 import { BoardColumn } from "@/components/BoardColumn";
-import { COLUMNS, seedTasks, type Task } from "@/lib/tasks";
+import {
+  COLUMNS,
+  moveTask,
+  seedTasks,
+  type MoveDirection,
+  type Task,
+} from "@/lib/tasks";
 
 export function Board() {
   const [tasks, setTasks] = useState<Task[]>(seedTasks);
@@ -15,6 +21,10 @@ export function Board() {
     ]);
   }
 
+  function handleMoveTask(taskId: string, direction: MoveDirection) {
+    setTasks((previous) => moveTask(previous, taskId, direction));
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <AddTaskForm onAdd={addTask} />
@@ -24,6 +34,7 @@ export function Board() {
             key={column.status}
             title={column.label}
             tasks={tasks.filter((task: Task) => task.status === column.status)}
+            onMoveTask={handleMoveTask}
           />
         ))}
       </div>

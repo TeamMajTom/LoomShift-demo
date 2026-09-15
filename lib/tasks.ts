@@ -18,3 +18,26 @@ export const seedTasks: Task[] = [
   { id: "3", title: "Build the board columns", status: "doing" },
   { id: "4", title: "Scaffold the Next.js app", status: "done" },
 ];
+
+export type MoveDirection = "previous" | "next";
+
+export function getAdjacentColumn(
+  status: TaskStatus,
+  direction: MoveDirection,
+): { status: TaskStatus; label: string } | null {
+  const index = COLUMNS.findIndex((column) => column.status === status);
+  const targetIndex = direction === "previous" ? index - 1 : index + 1;
+  return COLUMNS[targetIndex] ?? null;
+}
+
+export function moveTask(
+  tasks: Task[],
+  taskId: string,
+  direction: MoveDirection,
+): Task[] {
+  return tasks.map((task) => {
+    if (task.id !== taskId) return task;
+    const target = getAdjacentColumn(task.status, direction);
+    return target ? { ...task, status: target.status } : task;
+  });
+}
