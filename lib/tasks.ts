@@ -12,13 +12,6 @@ export const COLUMNS: { status: TaskStatus; label: string }[] = [
   { status: "done", label: "Done" },
 ];
 
-export const seedTasks: Task[] = [
-  { id: "1", title: "Sketch the sprintboard layout", status: "todo" },
-  { id: "2", title: "Write acceptance tests", status: "todo" },
-  { id: "3", title: "Build the board columns", status: "doing" },
-  { id: "4", title: "Scaffold the Next.js app", status: "done" },
-];
-
 export type MoveDirection = "previous" | "next";
 
 export function getAdjacentColumn(

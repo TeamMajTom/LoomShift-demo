@@ -1,28 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
 import { AddTaskForm } from "@/components/AddTaskForm";
 import { BoardColumn } from "@/components/BoardColumn";
 import {
+  getServerTasksSnapshot,
+  getTasksSnapshot,
+  setTasks,
+  subscribeToTasks,
+} from "@/lib/board-storage";
+import {
   COLUMNS,
   moveTask,
-  seedTasks,
   type MoveDirection,
   type Task,
 } from "@/lib/tasks";
 
 export function Board() {
-  const [tasks, setTasks] = useState<Task[]>(seedTasks);
+  const tasks = useSyncExternalStore(
+    subscribeToTasks,
+    getTasksSnapshot,
+    getServerTasksSnapshot,
+  );
 
   function addTask(title: string) {
-    setTasks((previous) => [
-      ...previous,
-      { id: crypto.randomUUID(), title, status: "todo" },
-    ]);
+    setTasks([...tasks, { id: crypto.randomUUID(), title, status: "todo" }]);
   }
 
   function handleMoveTask(taskId: string, direction: MoveDirection) {
-    setTasks((previous) => moveTask(previous, taskId, direction));
+    setTasks(moveTask(tasks, taskId, direction));
   }
 
   return (
