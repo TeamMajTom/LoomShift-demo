@@ -36,4 +36,26 @@ describe('App', () => {
 
     expect(screen.getByRole('alert')).toHaveTextContent(/enter a task title/i)
   })
+
+  it('moves a task from To do to Doing without reordering the other tasks', () => {
+    render(<App />)
+
+    const todoColumn = screen.getByRole('heading', { name: 'To do' }).closest('section')!
+    const doingColumn = screen.getByRole('heading', { name: 'Doing' }).closest('section')!
+
+    const taskItem = within(todoColumn)
+      .getAllByRole('listitem')
+      .find((item) => within(item).queryByText('Add task creation form'))!
+    fireEvent.click(within(taskItem).getByRole('button', { name: 'Move task to Doing' }))
+
+    expect(within(todoColumn).queryByText('Add task creation form')).not.toBeInTheDocument()
+    const doingItems = within(doingColumn)
+      .getAllByRole('listitem')
+      .map((item) => item.textContent)
+    expect(doingItems).toEqual([
+      expect.stringContaining('Build the column layout'),
+      expect.stringContaining('Wire up task state'),
+      expect.stringContaining('Add task creation form'),
+    ])
+  })
 })

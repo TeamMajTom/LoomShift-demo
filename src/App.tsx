@@ -2,8 +2,9 @@ import { useState } from 'react'
 import Column from './components/Column'
 import NewTaskForm from './components/NewTaskForm'
 import { COLUMNS } from './board/columns'
+import { moveTask } from './board/moveTask'
 import { seedTasks } from './board/seedTasks'
-import type { Task } from './board/types'
+import type { Task, TaskStatus } from './board/types'
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>(seedTasks)
@@ -15,6 +16,10 @@ function App() {
       status: 'todo',
     }
     setTasks((previousTasks) => [...previousTasks, newTask])
+  }
+
+  const handleMoveTask = (taskId: string, targetStatus: TaskStatus) => {
+    setTasks((previousTasks) => moveTask(previousTasks, taskId, targetStatus))
   }
 
   return (
@@ -30,6 +35,7 @@ function App() {
               key={column.status}
               title={column.label}
               tasks={tasks.filter((task) => task.status === column.status)}
+              onMoveTask={handleMoveTask}
             />
           ))}
         </div>
