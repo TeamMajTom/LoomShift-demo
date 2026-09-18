@@ -150,6 +150,18 @@
   cursor: not-allowed;
 }
 
+.board-column-task-delete:hover,
+.board-column-task-delete:focus-visible {
+  color: #b3261e;
+  border-color: #b3261e;
+}
+
+.board-column-task-confirm-delete:hover,
+.board-column-task-confirm-delete:focus-visible {
+  color: #1e7a34;
+  border-color: #1e7a34;
+}
+
 .board-column-empty {
   color: #6b6b6b;
   font-style: italic;
