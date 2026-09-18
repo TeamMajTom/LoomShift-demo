@@ -1,13 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Column from './components/Column'
 import NewTaskForm from './components/NewTaskForm'
 import { COLUMNS } from './board/columns'
 import { moveTask } from './board/moveTask'
-import { seedTasks } from './board/seedTasks'
+import { loadTasks, saveTasks } from './board/storage'
 import type { Task, TaskStatus } from './board/types'
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>(seedTasks)
+  const [tasks, setTasks] = useState<Task[]>(loadTasks)
+
+  useEffect(() => {
+    saveTasks(tasks)
+  }, [tasks])
 
   const handleAddTask = (title: string) => {
     const newTask: Task = {
