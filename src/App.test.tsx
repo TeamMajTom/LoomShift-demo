@@ -7,4 +7,11 @@ describe('App', () => {
     render(<App />)
     expect(screen.getByRole('heading', { name: 'Sprintboard' })).toBeInTheDocument()
   })
+
+  it('renders the three board columns', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { name: 'To do' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Doing' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Done' })).toBeInTheDocument()
+  })
 })

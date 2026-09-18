@@ -12,3 +12,76 @@
 .app-main {
   padding: 2rem;
 }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .app-main {
+    padding: 1rem;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+  }
+}
+
+.board-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 1rem;
+}
+
+.board-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.board-column-header h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.board-column-count {
+  flex: none;
+  min-width: 1.5rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.board-column-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.board-column-task {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fff;
+  word-break: break-word;
+}
+
+.board-column-empty {
+  color: #6b6b6b;
+  font-style: italic;
+  padding: 0.5rem 0;
+}
