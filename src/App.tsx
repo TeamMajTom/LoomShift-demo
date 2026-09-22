@@ -3,6 +3,7 @@ import Column from './components/Column'
 import NewTaskForm from './components/NewTaskForm'
 import { COLUMNS } from './board/columns'
 import { moveTask } from './board/moveTask'
+import { deleteTask } from './board/deleteTask'
 import { loadTasks, saveTasks } from './board/storage'
 import type { Task, TaskStatus } from './board/types'
 
@@ -26,6 +27,10 @@ function App() {
     setTasks((previousTasks) => moveTask(previousTasks, taskId, targetStatus))
   }
 
+  const handleDeleteTask = (taskId: string) => {
+    setTasks((previousTasks) => deleteTask(previousTasks, taskId))
+  }
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -40,6 +45,7 @@ function App() {
               title={column.label}
               tasks={tasks.filter((task) => task.status === column.status)}
               onMoveTask={handleMoveTask}
+              onDeleteTask={handleDeleteTask}
             />
           ))}
         </div>

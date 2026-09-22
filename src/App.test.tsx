@@ -58,4 +58,25 @@ describe('App', () => {
       expect.stringContaining('Add task creation form'),
     ])
   })
+
+  it('permanently removes a task after the delete is confirmed, leaving other tasks untouched', () => {
+    render(<App />)
+
+    const todoColumn = screen.getByRole('heading', { name: 'To do' }).closest('section')!
+    const otherTodoTitles = within(todoColumn)
+      .getAllByRole('listitem')
+      .map((item) => item.textContent)
+      .filter((text) => !text?.includes('Add task creation form'))
+
+    fireEvent.click(within(todoColumn).getByRole('button', { name: /Delete task: Add task creation form/ }))
+    fireEvent.click(
+      within(todoColumn).getByRole('button', { name: /Confirm delete task: Add task creation form/ }),
+    )
+
+    expect(within(todoColumn).queryByText('Add task creation form')).not.toBeInTheDocument()
+    const remainingTitles = within(todoColumn)
+      .getAllByRole('listitem')
+      .map((item) => item.textContent)
+    expect(remainingTitles).toEqual(otherTodoTitles)
+  })
 })
